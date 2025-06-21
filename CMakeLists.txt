@@ -676,6 +676,7 @@ set(
     ${CBF__SRC}/cbf.c
     "${CBF__SRC}/cbf_airy_disk.c"
     ${CBF__SRC}/cbf_alloc.c
+    "${CBF__SRC}/cbf_array2minicbf.c"
     ${CBF__SRC}/cbf_ascii.c
     ${CBF__SRC}/cbf_binary.c
     ${CBF__SRC}/cbf_byte_offset.c
@@ -736,6 +737,7 @@ set(
 	CBF_HEADERS
 	${CBF__INCLUDE}/cbf.h			
     ${CBF__INCLUDE}/cbf_alloc.h
+    "${CBF__INCLUDE}/cbf_array2minicbf.h"
     ${CBF__INCLUDE}/cbf_ascii.h
     ${CBF__INCLUDE}/cbf_binary.h		
     ${CBF__INCLUDE}/cbf_byte_offset.h
@@ -872,13 +874,16 @@ if(CBF_ENABLE_FORTRAN)
     set(f90bldsrc "${CMAKE_CURRENT_BINARY_DIR}/src/${filename}.f90")
     add_custom_command(
       OUTPUT "${f90bldsrc}"
-      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/m4"
       COMMAND ${CMAKE_COMMAND} -E make_directory
         "${CMAKE_CURRENT_BINARY_DIR}/src"
-      COMMAND ${M4} -P ${M4FLAGS} "${f90srcm4}" > "${f90bldsrc}"
+      COMMAND ${CMAKE_COMMAND}
+        "-Dcommand=${M4};-P;${M4FLAGS};${f90srcm4}"
+        "-Doutput-file=${f90bldsrc}"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/redirect.cmake"
       DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/m4/fcblib_defines.m4"
               "${f90srcm4}"
-      COMMENT "Generating ${f90bldsrc}")
+      VERBATIM
+      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/m4")
   endforeach()
 
   add_library(fcb
@@ -986,7 +991,7 @@ if(CBF_ENABLE_PYTHON)
   # As per Makefile, want links (not lynx) to reduce the diffs against
   # versioned CBFlib.txt.  Need SWIG 4.0.0 or later.  For Python 3,
   # Makefile also adds "# coding=utf-8" to the top of pycbf.py.
-  find_program(BROWSER_DUMP_TOOL NAMES links lynx elinks)
+  find_program(BROWSER_DUMP_TOOL NAMES links elinks lynx REQUIRED)
   find_package(Python COMPONENTS Development Interpreter REQUIRED)
   find_package(SWIG COMPONENTS python REQUIRED)
   include(UseSWIG)
@@ -996,11 +1001,12 @@ if(CBF_ENABLE_PYTHON)
     COMMAND ${CMAKE_COMMAND} -E make_directory
       "${CMAKE_CURRENT_BINARY_DIR}/pycbf"
     COMMAND ${CMAKE_COMMAND}
-      "-Dcommand=${BROWSER_DUMP_TOOL};-dump;${CMAKE_CURRENT_SOURCE_DIR}/doc/CBFlib.html"
+      "-Dcommand=${BROWSER_DUMP_TOOL};-dump;CBFlib.html"
       "-Doutput-file=${CMAKE_CURRENT_BINARY_DIR}/pycbf/CBFlib.txt"
       -P "${CMAKE_CURRENT_SOURCE_DIR}/redirect.cmake"
     DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/doc/CBFlib.html"
-    VERBATIM)
+    VERBATIM
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc")
 
 
   # Generate the SWIG interfaces from CBFlib.txt (so really no need to
