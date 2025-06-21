@@ -1036,9 +1036,10 @@ if(CBF_ENABLE_PYTHON)
   swig_add_library(pycbf
     SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/pycbf.i"
     LANGUAGE Python
-    OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/pycbf")
+    OUTFILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    OUTPUT_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
   set_target_properties(pycbf PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/pycbf")
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
   target_compile_definitions(pycbf
     PRIVATE SWIG_PYTHON_STRICT_BYTE_CHAR)
   target_link_libraries(pycbf
@@ -2580,7 +2581,7 @@ if(CBF_ENABLE_PYTHON)
       "${CBF__DATA}/img2cif_packed.cif"
       "${CBF__DATA}/pycbf_test1.raw")
   set_tests_properties(pycbf-test1 PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pycbf>"
     FIXTURES_REQUIRED "img2cif-flatpacked-cif"
     FIXTURES_SETUP pycbf-test1
     REQUIRED_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/pycbf_test1.py")
@@ -2620,7 +2621,7 @@ if(CBF_ENABLE_PYTHON)
       "${CBF__DATA}/adscconverted.cbf"
       "${CBF__DATA}/pycbf_test2.raw")
   set_tests_properties(pycbf-test2 PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pycbf>"
     FIXTURES_REQUIRED "convert_image-adscimg"
     FIXTURES_SETUP pycbf-test2
     REQUIRED_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/pycbf_test2.py")
@@ -2658,7 +2659,7 @@ if(CBF_ENABLE_PYTHON)
     COMMAND Python::Interpreter
       "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/pycbf_test3.py")
   set_tests_properties(pycbf-test3 PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pycbf>"
     REQUIRED_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/pycbf_test3.py")
 
 
@@ -2669,7 +2670,7 @@ if(CBF_ENABLE_PYTHON)
       "${CBF__DATA}/pycbf_test4.raw"
       "${CBF__DATA}/newtest1.cbf")
   set_tests_properties(pycbf-test4 PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pycbf>"
     FIXTURES_REQUIRED "img2cif-flatpacked-cif"
     FIXTURES_SETUP pycbf-test4
     REQUIRED_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/pycbf_test4.py")
@@ -2711,7 +2712,7 @@ if(CBF_ENABLE_PYTHON)
       "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/fel_test1.cbf"
       "${CBF__DATA}/fel_test1.raw")
   set_tests_properties(pycbf-fel1 PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pycbf>"
     FIXTURES_SETUP pycbf-fel1
     REQUIRED_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/fel_test1.cbf")
 
@@ -2750,7 +2751,7 @@ if(CBF_ENABLE_PYTHON)
       "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/fel_test2.cbf"
       "${CBF__DATA}/fel_test2.raw")
   set_tests_properties(pycbf-fel2 PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pycbf>"
     FIXTURES_SETUP pycbf-fel2
     REQUIRED_FILES "${CMAKE_CURRENT_SOURCE_DIR}/pycbf/fel_test2.cbf")
 
@@ -2789,7 +2790,7 @@ if(CBF_ENABLE_PYTHON)
       "${data_input}/hit-20140306005258847.cbf"
       "${CBF__DATA}/fel_test3.raw")
   set_tests_properties(pycbf-fel3 PROPERTIES
-    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}/pycbf"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pycbf>"
     FIXTURES_SETUP pycbf-fel3
     REQUIRED_FILES "${data_input}/hit-20140306005258847.cbf")
 
