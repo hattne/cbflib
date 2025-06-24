@@ -1951,7 +1951,7 @@ $(PY2CBF)/pycbf_testfelaxes.py  \
 $(PY2CBF)/xmas/readmarheader.py \
 $(PY2CBF)/xmas/xmasheaders.py   \
 $(PY2CBF)/xmas/xmas_cif_template.cif &: $(NUWEB_DEP) $(NUWEB_DEP2) $(PY2CBF)/pycbf.w
-	(cd $(PY2CBF); $(NUWEB) pycbf.w )
+	(cd $(PY2CBF); $(NUWEB) -t pycbf )
 	touch $(PY2CBF)/py2setup_py.m4
  
 $(PY2CBF)/_py2cbf.$(PY2CBFEXT):	$(PY2CBF)  shared \
@@ -1982,10 +1982,11 @@ $(LIB)/_py2cbf.$(PY2CBFEXT): $(PY2CBF)/_py2cbf.$(PY2CBFEXT)
 	
 $(PY2CBF)/pycbf.pdf: $(NUWEB_DEP) $(NUWEB_DEP2) $(PY2CBF)/pycbf.w
 	(cd $(PY2CBF); \
-	$(NUWEB) pycbf; \
-	latex pycbf; \
-	$(NUWEB) pycbf; \
-	latex pycbf; \
+	$(NUWEB) -o pycbf; \
+	latex -interaction batchmode pycbf; \
+	latex -interaction batchmode pycbf; \
+	$(NUWEB) -o pycbf; \
+	latex -interaction batchmode pycbf; \
 	dvipdfm pycbf )
 	
 $(PY2CBF)/CBFlib.txt: $(DOC)/CBFlib.html
@@ -2022,7 +2023,7 @@ $(PY3CBF)/pycbf_testfelaxes.py  \
 $(PY3CBF)/xmas/readmarheader.py \
 $(PY3CBF)/xmas/xmasheaders.py   \
 $(PY3CBF)/xmas/xmas_cif_template.cif &: $(NUWEB_DEP) $(NUWEB_DEP2) $(PY3CBF)/pycbf.w
-	(cd $(PY3CBF); $(NUWEB) pycbf.w )
+	(cd $(PY3CBF); $(NUWEB) -t pycbf )
 	touch $(PY3CBF)/py3setup_py.m4
 
 
@@ -2054,10 +2055,11 @@ $(LIB)/_pycbf.$(PY3CBFEXT): $(PY3CBF)/_pycbf.$(PY3CBFEXT)
 	
 $(PY3CBF)/pycbf.pdf: $(NUWEB_DEP) $(NUWEB_DEP2) $(PY3CBF)/pycbf.w
 	(cd $(PY3CBF); \
-	$(NUWEB) pycbf; \
-	latex pycbf; \
-	$(NUWEB) pycbf; \
-	latex pycbf; \
+	$(NUWEB) -o pycbf; \
+	latex -interaction batchmode pycbf; \
+	latex -interaction batchmode pycbf; \
+	$(NUWEB) -o pycbf; \
+	latex -interaction batchmode pycbf; \
 	dvipdfm pycbf )
 	
 $(PY3CBF)/CBFlib.txt: $(DOC)/CBFlib.html
